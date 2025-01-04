@@ -1,18 +1,35 @@
 import React, {useState} from 'react';
 import './App.css';
 import InputField from "./components/inputField";
+import {Todo} from "./model";
+import TodoList from "./components/TodoList";
+import {FaFolder} from "react-icons/fa6";
+import AcademicCap from "./assets/icons/academic-cap";
 
-const App: React.FC = ()  => {
+const App: React.FC = () => {
 
-  const [todo, setTodo] = useState<string>("")
+    const [todo, setTodo] = useState<string>("")
+    const [todos, setTodos] = useState<Todo[]>([])
 
-  return (
-      <div className = 'App'>
-        <span className={"heading"}>Taskify</span>
+    const handleAdd = (e: React.FormEvent) => {
+        e.preventDefault();
 
-         <InputField todo={todo} setTodo={setTodo}/>
-      </div>
-  );
+        if (todo) {
+            setTodos([...todos, {id: Date.now(), todo, isDone: false}]);
+            setTodo("");
+        }
+    };
+
+    console.log(todos)
+
+    return (
+        <div className='App'>
+            <span className={"heading"}>Taskify</span>
+            <InputField todo={todo} setTodo={setTodo} handleAdd={handleAdd}/>
+            <TodoList todos={todos} setTodos={setTodos}/>
+
+        </div>
+    );
 }
 
 export default App;
